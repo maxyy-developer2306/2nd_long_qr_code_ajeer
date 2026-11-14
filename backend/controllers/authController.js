@@ -4,13 +4,18 @@ import User from '../models/User.js';
 import { syncDatabases } from '../config/db.js';
 
 const generateToken = (user) => {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error('JWT_SECRET is not configured');
+  }
+
   return jwt.sign(
     {
       userId: user._id || 'env-user',
       username: user.username || user.name || 'admin',
       role: user.role || 'admin',
     },
-    process.env.JWT_SECRET || 'demo-secret',
+    secret,
     { expiresIn: '7d' }
   );
 };
@@ -23,10 +28,10 @@ export const loginUser = async (req, res) => {
       return res.status(400).json({ message: 'Username and password are required' });
     }
 
-    const envUsername = process.env.ADMIN_USERNAME || 'admin';
-    const envPassword = process.env.ADMIN_PASSWORD || 'admin123';
+    const envUsername = process.env.ADMIN_USERNAME;
+    const envPassword = process.env.ADMIN_PASSWORD;
 
-    if (username === envUsername && password === envPassword) {
+    if (envUsername && envPassword && username === envUsername && password === envPassword) {
       const token = generateToken({ username: envUsername, role: 'admin' });
       return res.json({
         message: 'Login successful',
@@ -68,6 +73,10 @@ export const loginUser = async (req, res) => {
 
 export const registerUser = async (req, res) => {
   try {
+    if (req.user?.role !== 'admin') {
+      return res.status(403).json({ message: 'Administrator access required' });
+    }
+
     const { username, password } = req.body;
 
     if (!username || !password) {

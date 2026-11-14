@@ -30,6 +30,9 @@ const LoginPage = () => {
       <section className="w-full max-w-[420px] rounded-lg border border-[#dce5df] bg-white p-7 shadow-[0_18px_50px_rgba(24,51,45,0.1)] sm:p-9">
         <p className="mb-2 text-center text-xs font-extrabold text-[#17745b]">AJEER ADMIN</p>
         <h1 className="mb-7 text-center text-2xl font-extrabold">Login</h1>
+        <p className="mb-5 text-center text-sm leading-6 text-slate-600">
+          Administrative access for this permit portal only. Do not enter your government-service password.
+        </p>
         {error && (
           <div role="alert" className="mb-4 rounded-md border border-[#efb4ae] bg-[#fff0ed] px-3 py-2.5 text-sm font-semibold text-[#a33326]">
             {error}

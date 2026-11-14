@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/AdminDashboardPage';
+import HomePage from './pages/HomePage';
 import PermitFormPage from './pages/PermitFormPage';
 import VerificationPortal from './pages/Verification_Portal';
 import { getToken } from './services/authService';
@@ -13,7 +14,7 @@ const ProtectedRoute = ({ children }) => {
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to={getToken() ? '/dashboard' : '/login'} replace />} />
+      <Route path="/" element={getToken() ? <Navigate to="/dashboard" replace /> : <HomePage />} />
       <Route path="/login" element={getToken() ? <Navigate to="/dashboard" replace /> : <LoginPage />} />
       <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
       <Route path="/permit-form" element={<ProtectedRoute><PermitFormPage /></ProtectedRoute>} />

@@ -10,6 +10,11 @@ export const getPermitById = async (id) => {
   return response.data;
 };
 
+export const getPublicPermitById = async (id) => {
+  const response = await api.get(`/permits/verify/${id}`);
+  return response.data;
+};
+
 export const createPermit = async (payload) => {
   const response = await api.post('/permits', payload);
   return response.data;

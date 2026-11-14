@@ -1,6 +1,11 @@
 import jwt from 'jsonwebtoken';
 
 const authMiddleware = (req, res, next) => {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    return res.status(503).json({ message: 'Authentication is temporarily unavailable' });
+  }
+
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -10,7 +15,7 @@ const authMiddleware = (req, res, next) => {
   const token = authHeader.split(' ')[1];
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'demo-secret');
+    const decoded = jwt.verify(token, secret);
     req.user = decoded;
     next();
   } catch (error) {

@@ -2,6 +2,7 @@ import express from 'express';
 import {
   getPermits,
   getPermitById,
+  getPublicPermitById,
   createPermit,
   updatePermit,
   deletePermit,
@@ -11,7 +12,8 @@ import authMiddleware from '../middleware/authMiddleware.js';
 const router = express.Router();
 
 router.get('/', authMiddleware, getPermits);
-router.get('/:id', getPermitById);
+router.get('/verify/:id', getPublicPermitById);
+router.get('/:id', authMiddleware, getPermitById);
 router.post('/', authMiddleware, createPermit);
 router.put('/:id', authMiddleware, updatePermit);
 router.delete('/:id', authMiddleware, deletePermit);

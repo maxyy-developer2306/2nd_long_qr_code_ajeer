@@ -32,6 +32,27 @@ export const getPermitById = async (req, res) => {
   }
 };
 
+export const getPublicPermitById = async (req, res) => {
+  try {
+    const permit = await Permit.findOne({
+      _id: req.params.id,
+      $or: [{ deletedAt: null }, { deletedAt: { $exists: false } }]
+    })
+      .select('permit_no permit_type issue_date expiry_date status')
+      .lean();
+
+    if (!permit) {
+      return res.status(404).json({ message: 'Permit not found' });
+    }
+
+    res.set('Cache-Control', 'no-store');
+    return res.json(permit);
+  } catch (error) {
+    console.error('Get public permit by id error:', error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
 export const createPermit = async (req, res) => {
   try {
     const {
