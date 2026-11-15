@@ -38,7 +38,9 @@ export const getPublicPermitById = async (req, res) => {
       _id: req.params.id,
       $or: [{ deletedAt: null }, { deletedAt: { $exists: false } }]
     })
-      .select('permit_no permit_type issue_date expiry_date status')
+      .select(
+        'permit_no permit_type issue_date expiry_date status worker_name iqama_no nationality job_title gender date_of_birth iqama_mosasa_number company_name'
+      )
       .lean();
 
     if (!permit) {

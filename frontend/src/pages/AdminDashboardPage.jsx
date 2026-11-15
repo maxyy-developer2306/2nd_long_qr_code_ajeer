@@ -12,13 +12,13 @@ const FILTERS = [
   { key: 'inactive', label: 'Inactive' },
 ];
 
-// Shared button styles
+// Shared button styles (slim, Vercel/GitHub dark look)
 const btnBase =
-  'inline-flex h-9 cursor-pointer items-center justify-center gap-2 rounded-lg px-4 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50';
-const btnPrimary = `${btnBase} bg-indigo-600 text-white shadow-sm hover:bg-indigo-700`;
-const btnGhost = `${btnBase} border border-slate-200 bg-white text-slate-700 hover:bg-slate-50`;
+  'inline-flex h-8 cursor-pointer items-center justify-center gap-1.5 rounded-md px-3 text-[13px] font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-black disabled:cursor-not-allowed disabled:opacity-50';
+const btnPrimary = `${btnBase} bg-white text-black hover:bg-neutral-200`;
+const btnGhost = `${btnBase} border border-neutral-800 bg-black text-neutral-300 hover:border-neutral-700 hover:bg-neutral-900 hover:text-white`;
 const rowAction =
-  'cursor-pointer rounded-md px-2.5 py-1 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500';
+  'cursor-pointer rounded px-2 py-1 text-xs font-medium text-neutral-400 transition-colors hover:bg-neutral-800 hover:text-white focus:outline-none focus-visible:ring-1 focus-visible:ring-neutral-500';
 
 // Single table row. React.memo prevents re-rendering unchanged rows
 // when the user types in the search box or another row changes.
@@ -26,37 +26,39 @@ const PermitRow = memo(function PermitRow({ permit, onView, onEdit, onToggle, on
   const initial = (permit.worker_name || '?').trim().charAt(0).toUpperCase();
 
   return (
-    <tr className="hover:bg-slate-50">
-      <td className="px-4 py-3 font-mono text-[13px] font-medium text-slate-900">{permit.permit_no}</td>
-      <td className="px-4 py-3">
-        <div className="flex items-center gap-3">
-          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-indigo-50 text-xs font-semibold text-indigo-600">
+    <tr className="transition-colors hover:bg-neutral-900/60">
+      <td className="px-4 py-2.5 font-mono text-xs font-medium text-neutral-100">{permit.permit_no}</td>
+      <td className="px-4 py-2.5">
+        <div className="flex items-center gap-2.5">
+          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-neutral-800 bg-neutral-900 text-[11px] font-semibold text-neutral-300">
             {initial}
           </span>
-          <span className="text-sm font-medium text-slate-800">{permit.worker_name}</span>
+          <span className="text-[13px] text-neutral-200">{permit.worker_name}</span>
         </div>
       </td>
-      <td className="px-4 py-3 font-mono text-[13px] text-slate-500">{permit.iqama_no}</td>
-      <td className="px-4 py-3 text-sm text-slate-500">{permit.gender || '—'}</td>
-      <td className="px-4 py-3">
+      <td className="px-4 py-2.5 font-mono text-xs text-neutral-400">{permit.iqama_no}</td>
+      <td className="px-4 py-2.5 text-[13px] text-neutral-400">{permit.gender || '—'}</td>
+      <td className="px-4 py-2.5">
         <span
-          className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ${
-            permit.status ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
+          className={`inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[11px] font-medium ${
+            permit.status
+              ? 'border-emerald-500/20 bg-emerald-500/10 text-emerald-400'
+              : 'border-amber-500/20 bg-amber-500/10 text-amber-400'
           }`}
         >
-          <span className={`h-1.5 w-1.5 rounded-full ${permit.status ? 'bg-emerald-500' : 'bg-amber-500'}`} />
+          <span className={`h-1.5 w-1.5 rounded-full ${permit.status ? 'bg-emerald-400' : 'bg-amber-400'}`} />
           {permit.status ? 'Active' : 'Inactive'}
         </span>
       </td>
-      <td className="px-4 py-3">
-        <div className="flex flex-wrap items-center justify-end gap-1">
+      <td className="px-4 py-2.5">
+        <div className="flex flex-wrap items-center justify-end gap-0.5">
           <button className={rowAction} onClick={() => onView(permit)}>View</button>
           <button className={rowAction} onClick={() => onEdit(permit)}>Edit</button>
           <button className={rowAction} onClick={() => onToggle(permit)}>
             {permit.status ? 'Deactivate' : 'Activate'}
           </button>
           <button
-            className="cursor-pointer rounded-md px-2.5 py-1 text-xs font-medium text-red-600 transition-colors hover:bg-red-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+            className="cursor-pointer rounded px-2 py-1 text-xs font-medium text-red-400 transition-colors hover:bg-red-500/10 hover:text-red-300 focus:outline-none focus-visible:ring-1 focus-visible:ring-red-500"
             onClick={() => onDelete(permit)}
           >
             Delete
@@ -161,58 +163,58 @@ const AdminDashboardPage = () => {
   );
 
   const stats = [
-    { label: 'Total permits', value: permits.length, color: 'bg-indigo-500' },
-    { label: 'Active', value: activeCount, color: 'bg-emerald-500' },
-    { label: 'Inactive', value: inactiveCount, color: 'bg-amber-500' },
+    { label: 'Total permits', value: permits.length, color: 'bg-neutral-400' },
+    { label: 'Active', value: activeCount, color: 'bg-emerald-400' },
+    { label: 'Inactive', value: inactiveCount, color: 'bg-amber-400' },
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 antialiased">
-      {/* Top bar (no blur effect, much lighter to render) */}
-      <header className="sticky top-0 z-10 border-b border-slate-200 bg-white">
-        <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6">
-          <div className="flex items-center gap-3">
-            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-600 text-xs font-bold text-white">A</span>
-            <span className="text-sm font-semibold text-slate-900">Ajeer</span>
-            <span className="text-slate-300">/</span>
-            <span className="text-sm text-slate-500">Permits</span>
+    <div className="min-h-screen bg-black text-neutral-200 antialiased">
+      {/* Top bar */}
+      <header className="sticky top-0 z-10 border-b border-neutral-800 bg-black">
+        <div className="mx-auto flex h-12 max-w-6xl items-center justify-between px-4 sm:px-6">
+          <div className="flex items-center gap-2.5">
+            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-white text-[11px] font-bold text-black">A</span>
+            <span className="text-[13px] font-semibold text-white">Ajeer</span>
+            <span className="text-neutral-700">/</span>
+            <span className="text-[13px] text-neutral-400">Permits</span>
           </div>
           <button className={btnGhost} onClick={handleLogout}>Log out</button>
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+      <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
         {/* Title + primary action */}
-        <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+        <div className="mb-5 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
           <div>
-            <h1 className="m-0 text-2xl font-bold tracking-tight text-slate-900">Permit dashboard</h1>
-            <p className="mb-0 mt-1 text-sm text-slate-500">Manage worker permits and their verification status.</p>
+            <h1 className="m-0 text-xl font-semibold tracking-tight text-white">Permit dashboard</h1>
+            <p className="mb-0 mt-1 text-[13px] text-neutral-500">Manage worker permits and their verification status.</p>
           </div>
           <button className={btnPrimary} onClick={() => navigate('/permit-form')}>
-            <span aria-hidden="true" className="text-lg leading-none">+</span> Add permit
+            <span aria-hidden="true" className="text-base leading-none">+</span> Add permit
           </button>
         </div>
 
         {/* Stat cards */}
-        <section className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <section className="mb-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
           {stats.map((stat) => (
-            <div key={stat.label} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-              <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-slate-500">
-                <span className={`h-2 w-2 rounded-full ${stat.color}`} />
+            <div key={stat.label} className="rounded-lg border border-neutral-800 bg-neutral-950 px-4 py-3.5">
+              <div className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-wider text-neutral-500">
+                <span className={`h-1.5 w-1.5 rounded-full ${stat.color}`} />
                 {stat.label}
               </div>
-              <div className="mt-2 text-3xl font-bold tabular-nums text-slate-900">{stat.value}</div>
+              <div className="mt-1.5 text-2xl font-semibold tabular-nums text-white">{stat.value}</div>
             </div>
           ))}
         </section>
 
         {/* Table card */}
-        <section className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+        <section className="overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950">
           {/* Toolbar */}
-          <div className="flex flex-col gap-3 border-b border-slate-200 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-3 border-b border-neutral-800 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="relative w-full sm:max-w-xs">
               <svg
-                className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
+                className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-neutral-500"
                 viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"
               >
                 <circle cx="9" cy="9" r="5.5" />
@@ -226,13 +228,13 @@ const AdminDashboardPage = () => {
                   setPage(1);
                 }}
                 placeholder="Search permit, worker, iqama..."
-                className="h-9 w-full rounded-lg border border-slate-200 bg-white pl-9 pr-3 text-sm text-slate-800 placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                className="h-8 w-full rounded-md border border-neutral-800 bg-black pl-8 pr-3 text-[13px] text-neutral-100 placeholder:text-neutral-600 focus:border-neutral-600 focus:outline-none focus:ring-1 focus:ring-neutral-600"
               />
             </div>
 
             <div className="flex items-center gap-2">
               {/* Segmented status filter */}
-              <div className="inline-flex overflow-hidden rounded-lg border border-slate-200">
+              <div className="inline-flex overflow-hidden rounded-md border border-neutral-800">
                 {FILTERS.map((filter) => (
                   <button
                     key={filter.key}
@@ -240,10 +242,10 @@ const AdminDashboardPage = () => {
                       setStatusFilter(filter.key);
                       setPage(1);
                     }}
-                    className={`h-9 cursor-pointer px-3.5 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500 ${
+                    className={`h-8 cursor-pointer px-3 text-[13px] font-medium transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-neutral-500 ${
                       statusFilter === filter.key
-                        ? 'bg-indigo-600 text-white'
-                        : 'bg-white text-slate-600 hover:bg-slate-50'
+                        ? 'bg-neutral-800 text-white'
+                        : 'bg-black text-neutral-400 hover:bg-neutral-900 hover:text-neutral-200'
                     }`}
                   >
                     {filter.label}
@@ -257,7 +259,7 @@ const AdminDashboardPage = () => {
           </div>
 
           {error && (
-            <p className="m-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-700" role="alert">
+            <p className="m-4 rounded-md border border-red-500/30 bg-red-500/10 px-3 py-2 text-[13px] text-red-400" role="alert">
               {error}
             </p>
           )}
@@ -265,16 +267,16 @@ const AdminDashboardPage = () => {
           <div className="overflow-x-auto">
             <table className="w-full min-w-[760px] border-collapse text-left">
               <thead>
-                <tr className="border-b border-slate-200 bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
-                  <th className="px-4 py-3 font-semibold">Permit no.</th>
-                  <th className="px-4 py-3 font-semibold">Worker</th>
-                  <th className="px-4 py-3 font-semibold">Iqama / ID</th>
-                  <th className="px-4 py-3 font-semibold">Gender</th>
-                  <th className="px-4 py-3 font-semibold">Status</th>
-                  <th className="px-4 py-3 text-right font-semibold">Actions</th>
+                <tr className="border-b border-neutral-800 bg-black text-[11px] uppercase tracking-wider text-neutral-500">
+                  <th className="px-4 py-2.5 font-medium">Permit no.</th>
+                  <th className="px-4 py-2.5 font-medium">Worker</th>
+                  <th className="px-4 py-2.5 font-medium">Iqama / ID</th>
+                  <th className="px-4 py-2.5 font-medium">Gender</th>
+                  <th className="px-4 py-2.5 font-medium">Status</th>
+                  <th className="px-4 py-2.5 text-right font-medium">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-neutral-900">
                 {pagePermits.map((permit) => (
                   <PermitRow
                     key={permit._id}
@@ -288,7 +290,7 @@ const AdminDashboardPage = () => {
 
                 {pagePermits.length === 0 && !error && (
                   <tr>
-                    <td className="px-6 py-14 text-center text-sm text-slate-500" colSpan="6">
+                    <td className="px-6 py-12 text-center text-[13px] text-neutral-500" colSpan="6">
                       {loading
                         ? 'Loading permits...'
                         : permits.length === 0
@@ -302,7 +304,7 @@ const AdminDashboardPage = () => {
           </div>
 
           {/* Footer with pagination */}
-          <div className="flex flex-col items-center justify-between gap-3 border-t border-slate-200 px-4 py-3 text-xs text-slate-500 sm:flex-row">
+          <div className="flex flex-col items-center justify-between gap-3 border-t border-neutral-800 px-4 py-2.5 text-xs text-neutral-500 sm:flex-row">
             <span>
               Showing {filteredPermits.length === 0 ? 0 : pageStart + 1}–{pageStart + pagePermits.length} of{' '}
               {filteredPermits.length} records
@@ -310,7 +312,7 @@ const AdminDashboardPage = () => {
             </span>
             <div className="flex items-center gap-2">
               <button
-                className={`${btnGhost} !h-8 !px-3 !text-xs`}
+                className={`${btnGhost} !h-7 !px-2.5 !text-xs`}
                 onClick={() => setPage(currentPage - 1)}
                 disabled={currentPage <= 1}
               >
@@ -320,7 +322,7 @@ const AdminDashboardPage = () => {
                 Page {currentPage} / {totalPages}
               </span>
               <button
-                className={`${btnGhost} !h-8 !px-3 !text-xs`}
+                className={`${btnGhost} !h-7 !px-2.5 !text-xs`}
                 onClick={() => setPage(currentPage + 1)}
                 disabled={currentPage >= totalPages}
               >

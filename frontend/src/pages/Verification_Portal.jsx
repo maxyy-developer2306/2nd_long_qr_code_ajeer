@@ -49,6 +49,23 @@ const VerificationPortal = () => {
       });
   }, [id]);
 
+  const formatNationality = (nat) => {
+    if (!nat) return '-';
+    const trimmed = nat.trim();
+    if (trimmed.toLowerCase() === 'pakistani' || trimmed.toLowerCase() === 'pakistan') {
+      return 'باكستاني';
+    }
+    return trimmed;
+  };
+
+  const formatGender = (gender) => {
+    if (!gender) return '-';
+    const trimmed = gender.trim();
+    if (trimmed.toLowerCase() === 'male') return 'ذكر';
+    if (trimmed.toLowerCase() === 'female') return 'أنثى';
+    return trimmed;
+  };
+
   return (
     <div dir="rtl" className="min-h-screen bg-[#f8fafc] text-[#1a202c] font-['Tajawal',sans-serif] text-right text-base leading-normal">
       
@@ -136,6 +153,90 @@ const VerificationPortal = () => {
                   </div>
                   <div dir="ltr" className="py-[12px] px-[16px] text-black text-[16px] font-bold text-right break-words bg-white">
                     {permit.end_date || permit.expiry_date || '-'}
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-b border-[#e2e8f0]">
+                <div className="bg-[#edf2f7] py-[12px] px-[16px] text-[17px] font-bold text-[#111827] text-right border-b border-[#e2e8f0]">
+                  بيانات العامل
+                </div>
+
+                <div className="border-b border-[#e2e8f0]">
+                  <div className="bg-[#f8fafc] py-[10px] px-[16px] text-[#374151] text-[15px] font-medium text-right">
+                    اسم العامل
+                  </div>
+                  <div dir="ltr" className="py-[12px] px-[16px] text-black text-[16px] font-bold text-right break-words bg-white">
+                    {permit.worker_name || '-'}
+                  </div>
+                </div>
+
+                <div className="border-b border-[#e2e8f0]">
+                  <div className="bg-[#f8fafc] py-[10px] px-[16px] text-[#374151] text-[15px] font-medium text-right">
+                    رقم الهوية / الإقامة
+                  </div>
+                  <div dir="ltr" className="py-[12px] px-[16px] text-black text-[16px] font-bold text-right break-words bg-white">
+                    {permit.iqama_no || '-'}
+                  </div>
+                </div>
+
+                <div className="border-b border-[#e2e8f0]">
+                  <div className="bg-[#f8fafc] py-[10px] px-[16px] text-[#374151] text-[15px] font-medium text-right">
+                    الجنسية
+                  </div>
+                  <div className="py-[12px] px-[16px] text-black text-[16px] font-bold text-right break-words bg-white">
+                    {formatNationality(permit.nationality)}
+                  </div>
+                </div>
+
+                <div className="border-b border-[#e2e8f0]">
+                  <div className="bg-[#f8fafc] py-[10px] px-[16px] text-[#374151] text-[15px] font-medium text-right">
+                    المهنة
+                  </div>
+                  <div className="py-[12px] px-[16px] text-black text-[16px] font-bold text-right break-words bg-white">
+                    {permit.job_title || '-'}
+                  </div>
+                </div>
+
+                <div className="border-b border-[#e2e8f0]">
+                  <div className="bg-[#f8fafc] py-[10px] px-[16px] text-[#374151] text-[15px] font-medium text-right">
+                    الجنس
+                  </div>
+                  <div className="py-[12px] px-[16px] text-black text-[16px] font-bold text-right break-words bg-white">
+                    {formatGender(permit.gender)}
+                  </div>
+                </div>
+
+                <div>
+                  <div className="bg-[#f8fafc] py-[10px] px-[16px] text-[#374151] text-[15px] font-medium text-right">
+                    تاريخ الميلاد
+                  </div>
+                  <div dir="ltr" className="py-[12px] px-[16px] text-black text-[16px] font-bold text-right break-words bg-white">
+                    {permit.date_of_birth || '-'}
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div className="bg-[#edf2f7] py-[12px] px-[16px] text-[17px] font-bold text-[#111827] text-right border-b border-[#e2e8f0]">
+                  بيانات المنشأة
+                </div>
+
+                <div className="border-b border-[#e2e8f0]">
+                  <div className="bg-[#f8fafc] py-[10px] px-[16px] text-[#374151] text-[15px] font-medium text-right">
+                    رقم المنشأة
+                  </div>
+                  <div dir="ltr" className="py-[12px] px-[16px] text-black text-[16px] font-bold text-right break-words bg-white">
+                    {permit.iqama_mosasa_number || '-'}
+                  </div>
+                </div>
+
+                <div>
+                  <div className="bg-[#f8fafc] py-[10px] px-[16px] text-[#374151] text-[15px] font-medium text-right">
+                    اسم المنشأة
+                  </div>
+                  <div className="py-[12px] px-[16px] text-black text-[16px] font-bold text-right break-words bg-white">
+                    {permit.company_name || '-'}
                   </div>
                 </div>
               </div>
