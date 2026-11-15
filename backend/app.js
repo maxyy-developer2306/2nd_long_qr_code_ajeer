@@ -13,6 +13,7 @@ const allowedOrigins = new Set([
   'http://localhost:5173',
   'http://127.0.0.1:5173',
   'https://ajeer-qiwa-hrs-com.vercel.app',
+  'https://ajeer-project-o7lm.vercel.app',
 ]);
 const vercelPreviewOrigin = /^https:\/\/ajeer-qiwa{1,2}-hrs-[a-z0-9-]+\.vercel\.app$/i;
 
