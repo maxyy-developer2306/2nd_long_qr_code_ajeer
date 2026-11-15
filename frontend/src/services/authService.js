@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const configuredApiUrl = import.meta.env.VITE_API_URL
+  || (import.meta.env.DEV ? 'http://localhost:5000' : 'https://ajeer-project-o7lm.vercel.app');
+const API_URL = configuredApiUrl.replace(/\/+$/, '').replace(/\/api$/, '');
 
 export const setToken = (token) => localStorage.setItem('ajeer_token', token);
 export const getToken = () => localStorage.getItem('ajeer_token');
