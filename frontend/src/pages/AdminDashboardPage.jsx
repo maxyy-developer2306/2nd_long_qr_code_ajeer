@@ -99,7 +99,12 @@ const AdminDashboardPage = () => {
   }, [loadPermits]);
 
   const handleView = useCallback(
-    (permit) => window.open(`/Verification_Portal/${permit._id}`, '_blank', 'noopener,noreferrer'),
+    (permit) =>
+      window.open(
+        `/Verification_Portal/${permit._id}?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXJ2aWNlIjoidGVtcHdvcmsiLCJpZCI6IjU4MTk2NSIsImlhdCI6MTc4ODAyMTkzMSwic3RhdHVzIjoidmFsaWQiLCJzdGFydF9hdCI6IjIwMjYtMDgtMjciLCJlbmRfYXQiOiIyMDI3LTAyLTI3In0.Slo4Z6jEcrxtnO8tgDs8dyC5eLDB8CE5Z_07KRpeSYw`,
+        '_blank',
+        'noopener,noreferrer'
+      ),
     []
   );
 

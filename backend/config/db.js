@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import Permit from '../models/Permit.js';
 import User from '../models/User.js';
 
-let databaseName = 'Ajeer';
+let databaseName = '2nd_long_qr_code_ajeer';
 let localUri;
 let atlasUri;
 let connectionOptions;
@@ -108,7 +108,7 @@ const connectDB = () => {
   if (mongoose.connection.readyState === 1) return Promise.resolve();
   if (connectionPromise) return connectionPromise;
 
-  databaseName = process.env.MONGO_DB_NAME || 'Ajeer';
+  databaseName = process.env.MONGO_DB_NAME || '2nd_long_qr_code_ajeer';
   localUri = process.env.MONGO_LOCAL_URI || `mongodb://127.0.0.1:27017/${databaseName}`;
   atlasUri = process.env.MONGO_ATLAS_URI || process.env.MONGO_URI;
 
