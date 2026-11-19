@@ -120,7 +120,7 @@ const connectDB = () => {
 
   connectionPromise = (async () => {
     try {
-      // Vercel deployment par direct 
+      // Vercel deployment  direct 
       if (process.env.VERCEL) {
         if (!atlasUri) throw new Error('MONGO_URI must be configured on Vercel');
         await mongoose.connect(atlasUri, connectionOptions);
